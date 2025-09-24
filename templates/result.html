@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="card">
+    <h2>Prediction Result</h2>
+    {% if prediction %}
+      <p><strong>Label:</strong> {{ prediction.label }}</p>
+      <canvas id="resultBarChart" width="400" height="200"></canvas>
+      <script>
+        const r_labels = {{ prediction.labels | tojson }};
+        const r_scores = {{ prediction.scores | tojson }};
+        const rctx = document.getElementById('resultBarChart');
+        new Chart(rctx, {
+          type: 'bar',
+          data: { labels: r_labels, datasets: [{ label: 'Scores', data: r_scores, backgroundColor: 'rgba(54,162,235,0.6)' }] },
+          options: { responsive:true, plugins:{ tooltip:{ enabled:true } } }
+        });
+      </script>
+    {% else %}
+      <p>No prediction made yet.</p>
+    {% endif %}
+  </div>
+{% endblock %}

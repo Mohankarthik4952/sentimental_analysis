@@ -1,0 +1,25 @@
+
+html,body{height:100%;margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:#0f1724;color:#e6eef8}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 24px;background:#071021}
+.logo{font-weight:700;display:flex;align-items:center;gap:10px}
+.logo-img{width:40px;height:40px;border-radius:50%}
+.profile-link{text-decoration:none}
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#1f2937;color:#fff}
+.nav{display:flex;gap:8px;padding:12px 24px;background:#071021}
+.dark-nav{background:#000}
+.nav-item{color:#9aa6b2;text-decoration:none;padding:8px 12px;border-radius:8px}
+.nav-item.active{background:#1f2937;color:#fff}
+.container{padding:24px}
+.centered{text-align:center;margin:40px 0}
+.main-heading{font-size:48px;font-weight:700;margin-bottom:12px}
+.centered .description{font-size:18px;margin-top:10px;line-height:1.6}
+.card{background:#0b1220;padding:18px;border-radius:12px;box-shadow:0 4px 12px rgba(2,6,23,0.6);margin:12px}
+.center-card{max-width:420px;margin:40px auto}
+.dashboard-cards{display:flex;gap:12px;flex-wrap:wrap}
+.footer{text-align:center;padding:12px;color:#7b8794}
+.flashes{list-style:none;padding:0}
+input,textarea,button{width:100%;padding:8px;margin:6px 0;border-radius:8px;border:1px solid #1f2937;background:#08111a;color:#e6eef8}
+textarea{resize:vertical;min-width:300px}
+canvas{display:block;margin:12px auto}
+button{cursor:pointer}
+.edit-icon{cursor:pointer;font-size:0.9em;color:#7b8794;margin-left:6px}

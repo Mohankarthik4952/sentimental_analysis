@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="card">
+    <h2>Make a Prediction</h2>
+    <form method="post" enctype="multipart/form-data">
+      <label>Enter text</label>
+      <textarea name="text_input" rows="3" style="width:100%;min-width:300px;resize:vertical;">{{ request.form.get('text_input','') }}</textarea>
+
+      <label>Or upload file (txt, pdf, docx)</label>
+      <input type="file" name="file_input" />
+
+      <button type="submit">Predict</button>
+    </form>
+  </div>
+
+  {% if prediction %}
+  <div class="card">
+    <h3>Prediction</h3>
+    <p><strong>Label:</strong> {{ prediction.label }}</p>
+
+    <canvas id="predChart" width="300" height="300"></canvas>
+
+    <h4>Top words</h4>
+    <ul>
+      {% for w,c in top_words %}
+        <li>{{ w }} — {{ c }}</li>
+      {% endfor %}
+    </ul>
+
+    {% if summary %}
+      <h4>Summary</h4>
+      <p>{{ summary }}</p>
+    {% endif %}
+
+    {% if digit_counts %}
+      <h4>Digit Frequency (KDE Plot)</h4>
+      <canvas id="digitChart"></canvas>
+    {% endif %}
+  </div>
+
+  <script>
+    const p_labels = {{ prediction.labels | tojson }};
+    const p_scores = {{ prediction.scores | tojson }};
+    const pctx = document.getElementById('predChart');
+    if (pctx) {
+      const colors = p_labels.map(l => l.toLowerCase() === "positive" ? "green" : (l.toLowerCase() === "negative" ? "red" : "#36a2eb"));
+      new Chart(pctx, { type:'pie', data:{ labels:p_labels, datasets:[{ data:p_scores, backgroundColor: colors, hoverOffset:20 }] },
+        options: { responsive:true, plugins:{ tooltip:{ enabled:true } } } });
+    }
+
+    {% if digit_counts %}
+    const d_labels = {{ digit_counts.keys() | list | tojson }};
+    const d_scores = {{ digit_counts.values() | list | tojson }};
+    const dctx = document.getElementById('digitChart');
+    if (dctx) {
+      new Chart(dctx, {
+        type:'line',
+        data:{ labels:d_labels, datasets:[{ 
+            label:'KDE Approximation',
+            data:d_scores,
+            fill:true,
+            borderColor:'#36a2eb',
+            backgroundColor:'rgba(54,162,235,0.2)',
+            tension:0.4
+        }]},
+        options:{ responsive:true, plugins:{ tooltip:{ enabled:true } } }
+      });
+    }
+    {% endif %}
+  </script>
+  {% endif %}
+{% endblock %}

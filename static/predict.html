@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="card">
+    <h2>Make a Prediction</h2>
+    <form method="post" enctype="multipart/form-data">
+      <label>Enter text</label>
+      <textarea name="text_input" rows="3" style="width:100%;min-width:300px;resize:vertical;">{{ request.form.get('text_input','') }}</textarea>
+
+      <label>Or upload file (txt, pdf, docx)</label>
+      <input type="file" name="file_input" />
+
+      <button type="submit">Predict</button>
+    </form>
+  </div>
+
+  {% if prediction %}
+  <div class="card">
+    <h3>Prediction</h3>
+    <p><strong>Label:</strong> {{ prediction.label }}</p>
+
+    <canvas id="predChart" width="250" height="250"></canvas>
+
+    <h4>Top words</h4>
+    <ul>
+      {% for w,c in top_words %}
+        <li>{{ w }} — {{ c }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <script>
+    const p_labels = {{ prediction.labels | tojson }};
+    const p_scores = {{ prediction.scores | tojson }};
+    const pctx = document.getElementById('predChart');
+    if (pctx) {
+      new Chart(pctx, { 
+        type:'pie', 
+        data:{ labels:p_labels, datasets:[{ data:p_scores, backgroundColor:['green','red'], hoverOffset:30 }] },
+        options: { responsive:true, plugins:{ tooltip:{ enabled:true } } }
+      });
+    }
+  </script>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="card center-card">
+    <h2>Profile</h2>
+    <form method="post" action="{{ url_for('profile_edit') }}">
+      <label>Name <span class="edit-icon">✎</span></label>
+      <input name="name" value="{{ session.get('name') }}" />
+      <label>Email <span class="edit-icon">✎</span></label>
+      <input name="email" value="{{ session.get('email') }}" />
+      <button type="submit">Save</button>
+    </form>
+    <form method="post" action="{{ url_for('logout') }}"><button>Logout</button></form>
+  </div>
+{% endblock %}

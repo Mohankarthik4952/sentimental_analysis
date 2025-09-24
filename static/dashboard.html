@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% block content %}
+<div class="centered">
+  <h1>Sentimental Analysis</h1>
+</div>
+<div class="dashboard-cards">
+  <div class="card">
+    <h3>Quick Stats</h3>
+    <p>Total uploads: {{ stats.total_uploads }}</p>
+    <p>Last predicted label: {{ stats.last_label }}</p>
+  </div>
+  <div class="card">
+    <h3>Top Labels</h3>
+    <canvas id="labelsChart"></canvas>
+  </div>
+</div>
+
+<script>
+  const label = {{ stats.labels | tojson }};
+  const count = {{ stats.counts | tojson }};
+  const ctx = document.getElementById('labelsChart');
+  if (ctx) {
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: label,
+        datasets: [{ label: 'Counts', data: count, backgroundColor: ['green', 'red'] }]
+      },
+      options: { responsive: true, plugins: { tooltip: { enabled: true } } }
+    });
+  }
+</script>
+{% endblock %}

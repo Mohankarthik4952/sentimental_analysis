@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Moodify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="logo">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" class="logo-img">
+        Moodify
+      </div>
+      <div class="profile"> 
+        <a href="{{ url_for('profile') }}" class="profile-link"> 
+          <div class="avatar">{{ session.get('name','U')[:1]|upper }}</div>
+        </a>
+      </div>
+    </div>
+
+    <nav class="nav dark-nav">
+      <a href="{{ url_for('dashboard') }}" class="nav-item {% if active=='dashboard' %}active{% endif %}">Dashboard</a>
+      <a href="{{ url_for('predict') }}" class="nav-item {% if active=='predict' %}active{% endif %}">Predict</a>
+      <a href="{{ url_for('result') }}" class="nav-item {% if active=='result' %}active{% endif %}">Result</a>
+    </nav>
+
+    <main class="container">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul class="flashes">
+          {% for m in messages %}
+            <li>{{ m }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">Team Code Sparks</footer>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="centered">
+    <h1 class="main-heading">Moodify</h1>
+    <p class="description">Every sentence carries a story, From joy to frustration, every mood matters.<br>
+     Bridging the gap between text and true emotions.</p>
+  </div>
+  <div class="dashboard-cards">
+    <div class="card">
+      <h3>Quick Stats</h3>
+      <p>Total uploads: {{ stats.total_uploads }}</p>
+      <p>Last predicted label: {{ stats.last_label }}</p>
+    </div>
+    <div class="card">
+      <h3>Top Labels</h3>
+      <canvas id="labelsChart"></canvas>
+    </div>
+  </div>
+  <script>
+    const labels = {{ stats.labels | tojson }};
+    const counts = {{ stats.counts | tojson }};
+    const ctx = document.getElementById('labelsChart');
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'bar',
+        data: { labels: labels, datasets: [{ label: 'Counts', data: counts, backgroundColor:'rgba(173, 216, 230, 1)'}] },
+        options: { responsive:true, plugins:{ tooltip:{ enabled:true } } }
+      });
+    }
+  </script>
+{% endblock %}
