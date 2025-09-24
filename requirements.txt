@@ -1,0 +1,8 @@
+Flask
+Werkzeug
+python-docx
+PyPDF2
+matplotlib
+seaborn
+numpy
+pandas
